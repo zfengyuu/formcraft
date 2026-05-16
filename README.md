@@ -1,95 +1,108 @@
 # FormCraft Pro
 
-FormCraft Pro is a local-first visual form builder built with Next.js App Router. It lets you create forms in a nested layout tree:
+FormCraft Pro is a local-first visual form builder built with Next.js App Router. It helps users create, preview, validate, import, and export complex forms without requiring a backend, database, authentication, or external form service.
 
-```text
+The builder is designed around a nested layout model:
+
+```txt
 Form -> Sections -> Rows -> Columns -> Fields
 ```
 
-The app stores drafts in browser `localStorage`, supports JSON import/export, renders a live preview, validates submissions with dynamic Zod schemas, and does not require a backend.
+This structure makes it possible to build flexible forms with sections, responsive rows, resizable columns, and a wide range of field types while keeping the exported schema clean and portable.
 
-## Table of Contents
+## Overview
 
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Data Model](#data-model)
-- [Prerequisites](#prerequisites)
-- [Local Setup](#local-setup)
-- [How To Test Locally](#how-to-test-locally)
-- [Manual QA Flow](#manual-qa-flow)
-- [GitHub Push Workflow](#github-push-workflow)
-- [Deploy To Vercel](#deploy-to-vercel)
-- [Import And Export JSON](#import-and-export-json)
-- [Persistence And Migration](#persistence-and-migration)
-- [Troubleshooting](#troubleshooting)
-- [Release Checklist](#release-checklist)
+FormCraft Pro provides a browser-based form building experience focused on speed, portability, and local-first workflows.
 
-## Features
+Users can create forms from templates, customize layouts visually, preview submissions, validate input with dynamic Zod schemas, and export the final form as JSON. Drafts are persisted locally in browser `localStorage`, making the app easy to run without any backend infrastructure.
 
+## Key Features
+
+- Local-first form builder with no backend dependency.
 - Dashboard for creating, importing, searching, duplicating, exporting, renaming, and deleting forms.
-- Template gallery with:
-  - Contact Form
-  - Job Application
-  - Customer Intake
-  - Feedback
-  - Event Registration
-  - Newsletter Signup
-  - Support Request
-  - Survey
-  - Lead Capture
-  - Bug Report
-- Builder with left panel tabs:
-  - Fields
-  - Layouts
-  - Templates
-  - Outline
-- Nested layout canvas:
-  - Sections
-  - Rows
-  - Resizable columns
-  - Column drop zones
-  - Empty column placeholders
-  - Selectable section, row, column, and field states
-- Field library:
-  - text
-  - textarea
-  - email
-  - number
-  - phone
-  - password
-  - select
-  - radio
-  - checkbox
-  - date
-  - switch
-  - file
-  - sectionTitle
-  - divider
-- Preview page with local validation and temporary submitted JSON output.
-- Local-only persistence with no auth, backend, database, email, webhook, or real file upload storage.
+- Template gallery for quickly starting common form types.
+- Visual builder with nested sections, rows, columns, and fields.
+- Resizable columns with percentage-based layout rules.
+- Live preview page with local validation.
+- Dynamic Zod schema generation based on form configuration.
+- JSON import/export for portable form schemas.
+- Legacy flat schema migration into the Pro nested layout model.
+- Local persistence through browser `localStorage`.
+- Mobile-friendly builder experience with dedicated tabs.
+
+## Template Gallery
+
+FormCraft Pro includes starter templates for common use cases:
+
+- Contact Form
+- Job Application
+- Customer Intake
+- Feedback
+- Event Registration
+- Newsletter Signup
+- Support Request
+- Survey
+- Lead Capture
+- Bug Report
+
+## Builder Experience
+
+The builder includes a left panel with organized tabs:
+
+- `Fields`
+- `Layouts`
+- `Templates`
+- `Outline`
+
+The canvas supports:
+
+- Sections
+- Rows
+- Resizable columns
+- Column drop zones
+- Empty column placeholders
+- Selectable section, row, column, and field states
+
+The settings panel changes based on the selected element type, allowing users to configure the form, layout containers, and individual fields.
+
+## Field Library
+
+Supported field types:
+
+- `text`
+- `textarea`
+- `email`
+- `number`
+- `phone`
+- `password`
+- `select`
+- `radio`
+- `checkbox`
+- `date`
+- `switch`
+- `file`
+- `sectionTitle`
+- `divider`
 
 ## Tech Stack
 
-- Next.js App Router
-- React
-- TypeScript
-- Tailwind CSS
-- shadcn-style local UI primitives
-- Zustand persist
-- React Hook Form
-- Zod
-- dnd-kit
-- Lucide React
-- Sonner
-- Vitest
-- Testing Library
-- Playwright
-- `localStorage`
+| Area | Technologies |
+| --- | --- |
+| Framework | Next.js App Router |
+| UI | React, TypeScript, Tailwind CSS |
+| Components | shadcn-style local UI primitives |
+| State management | Zustand persist |
+| Forms | React Hook Form |
+| Validation | Zod |
+| Drag and drop | dnd-kit |
+| Icons | Lucide React |
+| Notifications | Sonner |
+| Testing | Vitest, Testing Library, Playwright |
+| Persistence | Browser `localStorage` |
 
 ## Project Structure
 
-```text
+```txt
 src/
   app/
     page.tsx
@@ -131,7 +144,7 @@ src/
 
 ## Data Model
 
-The exported Pro schema shape is:
+The exported Pro schema uses this shape:
 
 ```ts
 type FormSchema = {
@@ -149,14 +162,14 @@ type FormSchema = {
 
 Layout nesting:
 
-```text
+```txt
 FormSchema.layout.sections[]
   FormSection.rows[]
     FormRow.columns[]
       FormColumn.fields[]
 ```
 
-Selection state uses:
+Selection state supports:
 
 ```ts
 { type: "form"; id: string }
@@ -175,10 +188,10 @@ Use these versions or newer compatible versions:
 - Node.js 20+
 - pnpm 9+
 - Git
-- Optional for GitHub push: GitHub CLI `gh`
-- Optional for CLI deployment: Vercel CLI
+- Optional: GitHub CLI `gh`
+- Optional: Vercel CLI
 
-Check your environment:
+Check your local environment:
 
 ```bash
 node --version
@@ -187,7 +200,7 @@ git --version
 gh --version
 ```
 
-If `gh` is not authenticated:
+If GitHub CLI is not authenticated:
 
 ```bash
 gh auth login
@@ -196,32 +209,32 @@ gh auth status
 
 ## Local Setup
 
-1. Clone the repository:
+Clone the repository:
 
 ```bash
 git clone <your-github-repo-url>
 cd formcraft
 ```
 
-2. Install dependencies:
+Install dependencies:
 
 ```bash
 pnpm install
 ```
 
-3. Start the local dev server:
+Start the local development server:
 
 ```bash
 pnpm dev
 ```
 
-4. Open the app:
+Open the app:
 
-```text
+```txt
 http://localhost:3000
 ```
 
-If port `3000` is busy, use another port:
+If port `3000` is busy, run the app on another port:
 
 ```bash
 pnpm dev -- --hostname 127.0.0.1 --port 3100
@@ -229,13 +242,31 @@ pnpm dev -- --hostname 127.0.0.1 --port 3100
 
 Then open:
 
-```text
+```txt
 http://127.0.0.1:3100
 ```
 
-## How To Test Locally
+## Development Commands
 
-Run the automated checks in this order:
+Run lint checks:
+
+```bash
+pnpm lint
+```
+
+Run tests:
+
+```bash
+pnpm test
+```
+
+Build for production:
+
+```bash
+pnpm build
+```
+
+Recommended full check before pushing:
 
 ```bash
 pnpm lint
@@ -243,208 +274,59 @@ pnpm test
 pnpm build
 ```
 
-What each command checks:
-
-- `pnpm lint`: ESLint and React/Next.js lint rules.
-- `pnpm test`: Vitest unit and component tests.
-- `pnpm build`: production Next.js build and TypeScript type checking.
-
 Expected result:
 
-```text
+```txt
 pnpm lint   -> no errors
 pnpm test   -> all tests pass
 pnpm build  -> production build completes
 ```
 
-Run local browser QA:
-
-1. Start the dev server:
-
-```bash
-pnpm dev -- --hostname 127.0.0.1 --port 3100
-```
-
-2. Open:
-
-```text
-http://127.0.0.1:3100
-```
-
-3. Verify the dashboard:
-
-- The page title says `FormCraft`.
-- The template gallery is visible.
-- Search input is visible.
-- `Create form` and `Import form` buttons are visible.
-
-4. Verify template creation:
-
-- Click `Contact Form`.
-- Confirm the app navigates to `/forms/<formId>/builder`.
-- Confirm the builder shows sections, rows, columns, fields, and settings.
-
-5. Verify builder behavior:
-
-- Click `Add section`.
-- Click `2 columns`.
-- Select a column.
-- Add a `Text Input`.
-- Drag or use resize handle between columns.
-- Select a field and edit its label or field name.
-- Click `Outline` and select nested elements.
-- Confirm the settings panel changes for form, section, row, column, and field.
-
-6. Verify preview and validation:
-
-- Click `Preview`.
-- Submit without required values and confirm validation errors appear.
-- Fill required values.
-- Click `Submit locally`.
-- Confirm the Submitted JSON panel displays the local payload.
-- Click `Reset` and confirm the form clears.
-
-7. Verify mobile layout:
-
-- Open browser dev tools.
-- Set viewport to a mobile size such as `390 x 844`.
-- Confirm tabs show `Fields`, `Canvas`, `Settings`, and `Preview`.
-- Confirm content does not overlap or clip.
-
 ## Manual QA Flow
 
 Use this flow before every release:
 
-```text
+```txt
 Dashboard -> create template -> builder -> add section -> add row -> add field -> resize columns -> preview -> submit -> copy JSON
 ```
 
 Checklist:
 
 - Dashboard loads without a framework error overlay.
-- Builder loads without console errors.
+- Template gallery is visible.
+- Search input is visible.
+- `Create form` and `Import form` buttons are visible.
+- Creating a template navigates to `/forms/<formId>/builder`.
+- Builder loads sections, rows, columns, fields, and settings.
+- Adding a section works.
+- Adding a row works.
+- Adding a field works.
+- Column resizing keeps total row width valid.
+- Outline selects nested elements correctly.
+- Settings panel changes for form, section, row, column, and field.
 - Preview loads without console errors.
-- No text overlaps at desktop width.
-- No text overlaps at mobile width.
-- Column widths stay valid after resize.
-- Exported JSON contains `layout.sections`.
-- Imported Pro JSON restores the layout tree.
-- Imported legacy flat JSON migrates into one section, one row, and one column.
+- Required field validation works.
+- Local submission JSON appears after successful submit.
+- Reset clears the local preview form.
+- Mobile layout works without overlap or clipping.
 
-## GitHub Push Workflow
+## Mobile QA
 
-1. Check the current branch and working tree:
+To verify the mobile experience:
 
-```bash
-git branch --show-current
-git status --short
-```
+1. Open browser DevTools.
+2. Set the viewport to a mobile size, such as `390 x 844`.
+3. Confirm the mobile tabs are visible:
+   - `Fields`
+   - `Canvas`
+   - `Settings`
+   - `Preview`
+4. Confirm content does not overlap, clip, or break layout.
+5. Confirm builder interactions remain usable.
 
-2. If this repository does not have a remote yet, create a GitHub repository:
+## Import and Export JSON
 
-```bash
-gh repo create formcraft --private --source=. --remote=origin
-```
-
-Use `--public` instead of `--private` if the repository should be public.
-
-3. Run the checks:
-
-```bash
-pnpm lint
-pnpm test
-pnpm build
-```
-
-4. Stage the intended files:
-
-```bash
-git add README.md next.config.ts package.json pnpm-lock.yaml vitest.config.mts src
-```
-
-5. Commit:
-
-```bash
-git commit -m "Build FormCraft Pro local-first form builder"
-```
-
-6. Push:
-
-```bash
-git push -u origin main
-```
-
-7. Confirm the remote:
-
-```bash
-git remote -v
-git log --oneline -5
-```
-
-## Deploy To Vercel
-
-### Option A: Deploy From Vercel Dashboard
-
-1. Push the repository to GitHub.
-2. Open Vercel.
-3. Click `Add New...`.
-4. Click `Project`.
-5. Import the GitHub repository.
-6. Use these settings:
-
-```text
-Framework Preset: Next.js
-Build Command: pnpm build
-Install Command: pnpm install
-Output Directory: .next
-Node.js Version: 20.x or newer
-```
-
-7. Click `Deploy`.
-8. After deploy finishes, open the production URL.
-9. Run the manual QA flow from this README.
-
-### Option B: Deploy With Vercel CLI
-
-1. Install the CLI if needed:
-
-```bash
-pnpm dlx vercel --version
-```
-
-2. Login:
-
-```bash
-pnpm dlx vercel login
-```
-
-3. Link the local project:
-
-```bash
-pnpm dlx vercel link
-```
-
-4. Deploy a preview:
-
-```bash
-pnpm dlx vercel
-```
-
-5. Deploy production:
-
-```bash
-pnpm dlx vercel --prod
-```
-
-6. Inspect the deployment:
-
-```bash
-pnpm dlx vercel inspect <deployment-url>
-```
-
-## Import And Export JSON
-
-Exported JSON uses the Pro layout tree:
+Exported JSON uses the Pro nested layout tree:
 
 ```json
 {
@@ -470,17 +352,17 @@ Legacy field compatibility:
 - `divider` remains `divider`.
 - Legacy `width` moves to `field.settings.width`.
 
-## Persistence And Migration
+## Persistence and Migration
 
 Current storage key:
 
-```text
+```txt
 formcraft-pro-storage
 ```
 
 Legacy storage key:
 
-```text
+```txt
 formcraft-storage
 ```
 
@@ -490,7 +372,7 @@ Migration behavior:
 - If Pro storage is empty and legacy storage exists, legacy flat forms are migrated.
 - Migration converts flat `fields` into:
 
-```text
+```txt
 one section -> one row -> one column -> migrated fields
 ```
 
@@ -499,6 +381,117 @@ Clear local data during development:
 ```js
 localStorage.removeItem("formcraft-pro-storage");
 localStorage.removeItem("formcraft-storage");
+```
+
+## GitHub Push Workflow
+
+Check the current branch and working tree:
+
+```bash
+git branch --show-current
+git status --short
+```
+
+If this repository does not have a remote yet, create a GitHub repository:
+
+```bash
+gh repo create formcraft --private --source=. --remote=origin
+```
+
+Use `--public` instead of `--private` if the repository should be public.
+
+Run checks:
+
+```bash
+pnpm lint
+pnpm test
+pnpm build
+```
+
+Stage the intended files:
+
+```bash
+git add README.md next.config.ts package.json pnpm-lock.yaml vitest.config.mts src
+```
+
+Commit:
+
+```bash
+git commit -m "Build FormCraft Pro local-first form builder"
+```
+
+Push:
+
+```bash
+git push -u origin main
+```
+
+Confirm the remote:
+
+```bash
+git remote -v
+git log --oneline -5
+```
+
+## Deploy to Vercel
+
+### Option A: Deploy from the Vercel Dashboard
+
+1. Push the repository to GitHub.
+2. Open Vercel.
+3. Click `Add New...`.
+4. Click `Project`.
+5. Import the GitHub repository.
+6. Use these settings:
+
+```txt
+Framework Preset: Next.js
+Build Command: pnpm build
+Install Command: pnpm install
+Output Directory: .next
+Node.js Version: 20.x or newer
+```
+
+7. Click `Deploy`.
+8. Open the production URL after deployment finishes.
+9. Run the manual QA flow from this README.
+
+### Option B: Deploy with Vercel CLI
+
+Check the CLI:
+
+```bash
+pnpm dlx vercel --version
+```
+
+Login:
+
+```bash
+pnpm dlx vercel login
+```
+
+Link the local project:
+
+```bash
+pnpm dlx vercel link
+```
+
+Deploy a preview:
+
+```bash
+pnpm dlx vercel
+```
+
+Deploy production:
+
+```bash
+pnpm dlx vercel --prod
+```
+
+Inspect the deployment:
+
+```bash
+pnpm dlx vercel inspect <deployment-url>
 ```
 
 ## Troubleshooting
@@ -589,10 +582,10 @@ pnpm test
 pnpm build
 ```
 
-Manual checks:
+Manual release checks:
 
 - Dashboard template creation works.
-- Builder section/row/column/field flow works.
+- Builder section, row, column, and field flow works.
 - Column resize works.
 - Outline selects nested elements.
 - Settings panel changes by selected element type.
@@ -600,12 +593,36 @@ Manual checks:
 - Local submission JSON appears.
 - Mobile tabs work.
 - No browser console errors.
-
-Deployment checks:
-
 - Production URL opens.
-- Dashboard renders.
-- Builder route renders.
-- Preview route renders.
+- Dashboard renders in production.
+- Builder route renders in production.
+- Preview route renders in production.
 - LocalStorage persistence works in the deployed browser.
+
+## Product Direction
+
+FormCraft Pro aims to become a flexible local-first form building tool for developers, product teams, and internal tools.
+
+Future improvements may include:
+
+- More advanced field conditions.
+- Multi-page forms.
+- Theme customization.
+- Form schema versioning.
+- Reusable field groups.
+- Export to React components.
+- Optional backend integrations.
+- Webhook and email support.
+- Real file upload storage.
+
+## Status
+
+FormCraft Pro is currently in MVP development.
+
+The current version focuses on local-first persistence, visual nested layout editing, template-based creation, live preview, validation, JSON import/export, and legacy schema migration.
+
+## License
+
+Add your license here.
+
 # formcraft
